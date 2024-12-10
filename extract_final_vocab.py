@@ -10,28 +10,31 @@ def extract_vocabulary(file_path):
         text = result.value
 
     # Normalize text to handle inconsistent spacing
-    text = re.sub(r"Examples\s*[-\u2013]?\s*", "Examples: ", text)  # Replace all variations with "Examples: "
+    text = re.sub(r"Examples\s*[-\u2013]?\s*", "Examples: ", text)  # Normalize "Examples"
 
     # Step 2: Split text into individual entries
-    entries = re.split(r"\n\d+\.\s*", text)  # Split by patterns like "1.", "2.", etc.
+    entries = re.split(r"(?<!\w)\d+\.\s*", text)  # Split by patterns like "1.", "2.", etc.
 
     vocab_list = []  # To store the extracted vocabulary as dictionaries
 
     # Step 3: Process each entry to extract details
-    for entry in entries:
+    for i, entry in enumerate(entries):
         if not entry.strip():  # Skip empty entries
             continue
+
+        print(f"Processing Entry {i}: {entry[:50]}...")  # Debugging output
 
         lines = entry.strip().split("\n")  # Split entry into lines
         word_line = lines[0]  # First line should contain the word and meaning
 
-        # Extract vocabulary name and meaning
-        word_match = re.match(r"^(\w+)\s\((.*?)\)\s[-\u2013]\s(.+)", word_line)
+        # Updated regex to handle missing spaces and optional translations
+        word_match = re.match(r"^(\w+)\s\((.*?)\)\s[-\u2013]\s(.+?)(?:\s*\(.*?\))?$", word_line)
         if word_match:
-            vocab_name = word_match.group(1)
-            vocab_type = word_match.group(2)
-            vocab_meaning = word_match.group(3)
+            vocab_name = word_match.group(1).strip()
+            vocab_type = word_match.group(2).strip()
+            vocab_meaning = word_match.group(3).strip()
         else:
+            print(f"Skipping Entry {i}: Failed to match word format.\nRaw Entry: {word_line}")
             continue
 
         # Initialize placeholders for other details
@@ -52,8 +55,6 @@ def extract_vocabulary(file_path):
             elif line.startswith("Hint"):
                 current_section = "hint"
                 hint = re.sub(r"^Hint\s[-\u2013]\s*", "", line).strip()
-
-            # Collect examples regardless of numbering
             elif current_section == "examples":
                 if line and not line.startswith(("Synonyms", "Hint")):
                     examples.append(line)
@@ -83,7 +84,7 @@ def save_to_excel(vocabulary, output_file):
     print(f"Excel file created at: {output_file}")
 
 # Example usage
-file_path = "Vocab - 183 with photos.docx"
+file_path = "Vocab - 186 with photos.docx"
 vocabulary = extract_vocabulary(file_path)
 
 # Define output file path
