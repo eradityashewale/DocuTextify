@@ -99,7 +99,7 @@ time.sleep(3)
 
 # Set the quiz date
 tomorrow_date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
-current_date = '08-12-2024'
+current_date = '11-12-2024'
 
 date_input = wait.until(EC.presence_of_element_located(
     (By.XPATH, "//input[@name='forDate']")))
@@ -138,24 +138,33 @@ questions_section.click()
 time.sleep(3)
 
 # Add questions
+# Add questions to the quiz
 for i, question_text in enumerate(questions, start=1):
     print(f"Adding question {i}: {question_text}")
-
-    add_question_button = wait.until(EC.presence_of_element_located(
-        (By.XPATH, "//div[contains(@class, 'MuiChip-root') and contains(@class, 'MuiChip-filled') and contains(@class, 'MuiChip-clickable')]")
+    
+    # Locate and click the "Add first quiz" element
+    first_quiz_button = wait.until(EC.presence_of_element_located(
+        (By.XPATH, "//div[contains(@class, 'MuiChip-icon') and contains(text(), '1')]")
     ))
-    add_question_button.click()
+    first_quiz_button.click()
     time.sleep(1)
-
-    question_input = wait.until(EC.presence_of_element_located(
-        (By.XPATH, "//textarea[@name='description']")))
-    question_input.clear()
-    question_input.send_keys(question_text)
+    
+    # Input the question text into the correct textarea
+    question_textarea = wait.until(EC.presence_of_element_located(
+        (By.XPATH, "//textarea[@name='description']")
+    ))
+    question_textarea.clear()
+    question_textarea.send_keys(question_text)
     time.sleep(1)
-
+    
+    # Click the "Save" button to add the question
     save_button = wait.until(EC.presence_of_element_located(
-        (By.XPATH, "//button[contains(text(), 'Save')]")))
+        (By.XPATH, "//button[contains(text(), 'Save')]")
+    ))
     save_button.click()
     time.sleep(2)
 
+    print(f"Question {i} added successfully.")
+
 print("All questions added successfully.")
+
