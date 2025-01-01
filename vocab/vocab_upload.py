@@ -93,7 +93,7 @@ for index, row in vocab_df.iterrows():
         option.click()
     
     # Fill in the "Date" field with the current date
-    current_date = '09-12-2024'
+    current_date = '01-01-2025'
     date_input = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div[3]/div/div/input")))
     date_input.clear()  # Clear existing input
     date_input.send_keys(current_date)

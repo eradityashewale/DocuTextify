@@ -53,7 +53,6 @@ def extract_vocabulary(file_path):
                 current_section = "synonyms"
                 synonyms = line.replace("Synonyms -", "").strip().split(", ")
             elif line.startswith("Hint"):
-                current_section = "hint"
                 hint = re.sub(r"^Hint\s[-\u2013]\s*", "", line).strip()
             elif current_section == "examples":
                 if line and not line.startswith(("Synonyms", "Hint")):
@@ -84,7 +83,7 @@ def save_to_excel(vocabulary, output_file):
     print(f"Excel file created at: {output_file}")
 
 # Example usage
-file_path = "Vocab - 186 with photos.docx"
+file_path = "Vocab - 62 with photos.docx"
 vocabulary = extract_vocabulary(file_path)
 
 # Define output file path

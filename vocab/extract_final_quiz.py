@@ -56,7 +56,7 @@ def extract_text_from_word(file_path):
         return result.value
 
 # File path to the Word document
-file_path = "Vocab - 183 with photos.docx"  # Replace with the actual file path
+file_path = "/Users/admin/Documents/GitHub/DocuTextify/vocab/Vocab - 198 with photos.docx"  # Replace with the actual file path
 
 # Extract text from the Word file
 text = extract_text_from_word(file_path)
@@ -65,5 +65,5 @@ text = extract_text_from_word(file_path)
 quiz_df = extract_quiz_data(text)
 
 # Save to Excel
-quiz_df.to_excel("quiz_data.xlsx", index=False)
+quiz_df.to_csv("quiz_data.csv", index=False)
 

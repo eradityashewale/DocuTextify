@@ -25,7 +25,7 @@ def parse_quizzes(text, max_options=6):
     lines = text.splitlines()
     quizzes = []
     current_quiz = {}
-    option_labels = ['A', 'B', 'C', 'D', 'E', 'F']  # Extend if needed
+    option_labels = ['A', 'B', 'C', 'D']  # Extend if needed
 
     i = 0
     while i < len(lines):
@@ -101,7 +101,7 @@ def create_dataframe(quizzes, max_options=6):
         pd.DataFrame: The structured DataFrame.
     """
     # Define DataFrame columns
-    option_labels = ['A', 'B', 'C', 'D', 'E', 'F'][:max_options]
+    option_labels = ['A', 'B', 'C', 'D'][:max_options]
     columns = ['Quiz']
     for label in option_labels:
         columns.extend([f"Option_{label}", f"Option_{label}_description"])
@@ -124,7 +124,7 @@ def create_dataframe(quizzes, max_options=6):
 # Main Execution
 if __name__ == "__main__":
     # Specify the path to your Word document
-    file_path = "Vocab - 196 with photos.docx"  # Update with your actual file path
+    file_path = "Vocab - 62 with photos.docx"  # Update with your actual file path
 
     # Step 1: Extract raw text
     raw_text = extract_raw_text(file_path)
@@ -140,4 +140,3 @@ if __name__ == "__main__":
 
     # Optional: Export to CSV and Excel
     df_quizzes.to_csv("extracted_quizzes.csv", index=False)
-    df_quizzes.to_excel("extracted_quizzes.xlsx", index=False)
